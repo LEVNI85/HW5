@@ -1,0 +1,5 @@
+{% for student in students %}
+    <li>{{ student.first_n }}:{{ student.last_n }}</li>
+{% empty %}
+    <li>No students available.</li>
+{% endfor %}
