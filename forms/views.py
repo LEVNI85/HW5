@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
-from .forms import CourseForm, StudentModelForm
-from .models import Course, Student
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import CourseForm, StudentModelForm, SubjectModelForm
+from .models import Course, Student, Subject
 
 def create_course(request):
     if request.method == "POST":
@@ -26,6 +26,36 @@ def create_student(request):
         form = StudentModelForm()
     return render(request, 'student.html', {'form': form})
 
+def create_subject(request):
+    if request.method == "POST":
+        form = SubjectModelForm(request.POST)
+        if form.is_valid():
+            form.save()  
+            return redirect('create_subject')  
+    else:
+        form = SubjectModelForm()
+
+    subjects = Subject.objects.all()  
+    return render(request, 'subject.html', {'form': form, 'subjects': subjects})
+
+def subject_edit(request, id):
+    subject = get_object_or_404(Subject, id=id)
+
+    if request.method == "POST":
+        form = SubjectModelForm(request.POST, instance=subject)
+        if form.is_valid():
+            form.save()
+            return redirect('create_subject')
+    else:
+        form = SubjectModelForm(instance=subject)
+        
+    return render(request, 'subject_edit.html', {'form': form})
+
+def subject_delete(request, id):
+    subject = get_object_or_404(Subject, id=id)
+    subject.delete()
+    return redirect('create_subject')
+
 def display_course(request):
     courses = Course.objects.all()  
     return render(request, 'displayC.html', {'courses': courses})
@@ -36,4 +66,6 @@ def display_student(request):
 
 def success(request):
     return render(request, 'success.html')
+
+
 

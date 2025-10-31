@@ -1,0 +1,32 @@
+<h1>add a subject</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">submit</button>
+    </form>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Number</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for subject in subjects %}
+        <tr>
+            <td>{{ subject.name }}</td>
+            <td>{{ subject.number }}</td>
+            <td>
+                <a href="{% url 'subject_edit' subject.id %}">Edit</a> /
+                <a href="{% url 'subject_delete' subject.id %}">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No Objects</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

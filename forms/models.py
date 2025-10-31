@@ -15,3 +15,10 @@ class Student(models.Model):
     def __str__(self):
         return f"{self.first_n} {self.last_n}"
 
+
+class Subject(models.Model):
+    name = models.TextField()
+    number = models.TextField()
+
+    def __str__(self):
+        return f"{self.name}, {self.number}"
